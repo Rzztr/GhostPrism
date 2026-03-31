@@ -48,8 +48,8 @@ El proyecto está diseñado de forma modular y sin herramientas complejas de _bu
 2.  **Ambientes de Base de Datos**:
     Las credenciales de Supabase están referenciadas en `js/supabase.js` y `js/auth.js`. 
     ```javascript
-    const SUPABASE_URL = 'https://pltwgpnqggznunmcvtad.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_...';
+    const SUPABASE_URL = 'SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'PUBLISHABLE_ANONKEY';
     ```
 3.  Abre [http://localhost:8000](http://localhost:8000) en tu navegador preferido.
 
