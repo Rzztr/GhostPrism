@@ -41,17 +41,14 @@ Dashboard web y Progressive Web App (PWA) para el control, monitoreo y seguimien
 El proyecto está diseñado de forma modular y sin herramientas complejas de _bundling_, por lo que su ejecución local es extremadamente simple:
 
 1.  **Ejecutar Servidor Local**: Puedes montar un servidor HTTP embebido o usar la extensión "Live Server" de tu IDE.
-    ```bash
-    # Ejemplo usando Python 3
-    python3 -m http.server 8000
-    ```
-2.  **Ambientes de Base de Datos**:
+
+3.  **Ambientes de Base de Datos**:
     Las credenciales de Supabase están referenciadas en `js/supabase.js` y `js/auth.js`. 
     ```javascript
     const SUPABASE_URL = 'SUPABASE_URL';
     const SUPABASE_ANON_KEY = 'PUBLISHABLE_ANONKEY';
     ```
-3.  Abre [http://localhost:8000](http://localhost:8000) en tu navegador preferido.
+4.  Abre [http://localhost:8000](http://localhost:8000) en tu navegador preferido.
 
 ## 🔑 Estructura de Tabla Requerida (Supabase)
 
