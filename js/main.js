@@ -76,7 +76,6 @@ function renderDashboardLayout() {
         <nav>
           <button id="nav-dashboard" class="nav-btn active" onclick="navigate('dashboard')">Dashboard</button>
           <button id="nav-map" class="nav-btn" onclick="navigate('map')">Mapa en Tiempo Real</button>
-          <button id="nav-control" class="nav-btn" onclick="navigate('control')">Control Remoto</button>
           <button id="nav-historial" class="nav-btn" onclick="navigate('historial')">Historial</button>
         </nav>
         <div class="user-info">
