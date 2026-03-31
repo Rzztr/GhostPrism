@@ -10,13 +10,13 @@
   "orientation": "landscape-primary",
   "icons": [
     {
-      "src": "assets/icons/icon-192.png",
+      "src": "assets/icons/icon.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/icon-512.png",
+      "src": "assets/icons/icon.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
@@ -26,20 +26,5 @@
   "lang": "es-MX",
   "dir": "ltr",
   "categories": ["security", "productivity", "utilities"],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/dashboard-es.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Vista principal del dashboard"
-    },
-    {
-      "src": "assets/screenshots/map-es.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Mapa en tiempo real de incidencias"
-    }
-  ]
+  "screenshots": []
 }
