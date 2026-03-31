@@ -1,0 +1,45 @@
+{
+  "name": "Ghost prISM - Estación de Operación Alfa",
+  "short_name": "Ghost prISM",
+  "description": "Dashboard de control y seguimiento en tiempo real para situaciones de riesgo y emergencias - Seguridad Mundial 2026",
+  "start_url": ".",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
+  "background_color": "#0d1117",
+  "theme_color": "#161b22",
+  "orientation": "landscape-primary",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "/",
+  "lang": "es-MX",
+  "dir": "ltr",
+  "categories": ["security", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "assets/screenshots/dashboard-es.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Vista principal del dashboard"
+    },
+    {
+      "src": "assets/screenshots/map-es.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Mapa en tiempo real de incidencias"
+    }
+  ]
+}
