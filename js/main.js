@@ -112,7 +112,6 @@ window.navigate = function(view) {
   const titulos = {
     dashboard: 'Dashboard',
     map: 'Mapa en Tiempo Real',
-    control: 'Control Remoto',
     historial: 'Historial'
   };
   document.getElementById('page-title').textContent = titulos[view] || view;
@@ -120,7 +119,6 @@ window.navigate = function(view) {
   // Renderiza la vista correspondiente
   if (view === 'dashboard')      renderDashboardView(content);
   else if (view === 'map')       renderMapView(content);
-  else if (view === 'control')   renderControlView(content);
   else if (view === 'historial') renderHistorialView(content);
   else content.innerHTML = '<p>Vista no implementada aún</p>';
 };
