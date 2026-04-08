@@ -59,5 +59,7 @@ Para el total funcionamiento del frontend con las consultas del backend, se requ
 *   **`incidencias`**: Alertas generadas; columnas `id`, `tipo` ('panic', 'disconnected'), `status` ('activa', 'resuelta'), `lat`, `lng`, `notas`, `created_at`.
 *   **`historial`**: Log maestro para auditoría de acciones; columnas `id`, `dispositivo_id`, `usuario_id`, `accion`, `detalle`, `created_at`.
 
-**(Nota: Cerciorarse de que las directivas RLS en Supabase estén habilitadas y admitan Inserts/Selects según los requerimientos operativos previstos.)**
-** NOTA 8 DE ABRIL: F POR EL PROYECTO AJAJAJAJ  **
+## UPDATES 8 DE ABRIL 2026 V - 3.1.7:
+* **Nueva Optimizacion**: Se hizo minimizacion de codigo a los archivos JS-CSS-JSON-INDEX para mejor rendimiento
+* **Cambio de Icon**: Icono nuevo de optimizacion
+* **Produccion**: Pagina colgada en el sitio web oficial
