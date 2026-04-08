@@ -60,3 +60,4 @@ Para el total funcionamiento del frontend con las consultas del backend, se requ
 *   **`historial`**: Log maestro para auditoría de acciones; columnas `id`, `dispositivo_id`, `usuario_id`, `accion`, `detalle`, `created_at`.
 
 **(Nota: Cerciorarse de que las directivas RLS en Supabase estén habilitadas y admitan Inserts/Selects según los requerimientos operativos previstos.)**
+** NOTA 8 DE ABRIL: F POR EL PROYECTO AJAJAJAJ  **
