@@ -1,21 +1,20 @@
 // sw.js - Service Worker para GhostPrism PWA
 // Estrategias implementadas: Cache-First, Network-First, Stale-While-Revalidate
 
-const VERSION = 'v0.1.1-2026';
+const VERSION = 'v2.3.17-2026';
 const CACHE_NAME = `ghost-prism-${VERSION}`;
 
 // Archivos que se cachean al instalar (estáticos esenciales)
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/css/style.css',
-  '/js/main.js',
-  '/js/auth.js',
-  '/js/api.js',
-  '/js/supaBaseControll.js',
-  '/js/dashboard.js',
-  '/js/map.js',
-  '/js/control.js',
+  '/css/style.min.css',
+  '/js/main.min.js',
+  '/js/auth.min.js',
+  '/js/supabase.min.js',
+  '/js/dashboard.min.js',
+  '/js/map.min.js',
+  '/js/control.min.js',
   '/assets/icon.png',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
