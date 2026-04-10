@@ -132,6 +132,16 @@ async function verIncidenciasActivas() {
   }
   return data;
 }
+async function verNuevasIncidencias(desde) {
+  const { data: data, error: error } = await sbFetch(
+    `incidencias?select=id,tipo,created_at,notas&created_at=gt.${desde}&order=created_at.asc`
+  );
+  if (error) {
+    console.error("[Supabase] verNuevasIncidencias:", error);
+    return null;
+  }
+  return data;
+}
 async function resolverIncidencia(id) {
   if (!id) return null;
   const { data: data, error: error } = await sbFetch(
@@ -212,3 +222,4 @@ window.resolverIncidencia = resolverIncidencia;
 window.verHistorial = verHistorial;
 window.verHistorialPorMAC = verHistorialPorMAC;
 window.registrarAccion = registrarAccion;
+window.verNuevasIncidencias = verNuevasIncidencias;

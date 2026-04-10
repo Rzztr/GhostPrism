@@ -21,6 +21,7 @@ function renderLogin() {
     }
     const resultado = await login(curp, password);
     if (resultado.success) {
+      if (typeof iniciarNotificaciones === "function") iniciarNotificaciones();
       render("dashboard");
     } else {
       alert(resultado.message || "Error al iniciar sesión");
@@ -87,6 +88,7 @@ window.onload = () => {
     const usuario = obtenerUsuarioActual();
     if (usuario) {
       state.user = usuario.nombre.split(" ")[0] || "Sentinel";
+      if (typeof iniciarNotificaciones === "function") iniciarNotificaciones();
       render("dashboard");
     } else {
       render("login");
@@ -95,3 +97,75 @@ window.onload = () => {
     render("login");
   }
 };
+
+// --- PUSH NOTIFICATIONS POLLING --- //
+let incidenciasInterval = null;
+let lastIncidentTime = new Date().toISOString();
+
+function iniciarNotificaciones() {
+  if (!("Notification" in window)) {
+    console.warn("El navegador no soporta notificaciones de escritorio");
+    return;
+  }
+  if (Notification.permission !== "denied" && Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
+  
+  if (incidenciasInterval) clearInterval(incidenciasInterval);
+  
+  // Opcional: Se podría usar una fecha ligeramente anterior para catch-up, pero usaremos ahora
+  lastIncidentTime = new Date().toISOString();
+  
+  // Polling cada 10 segundos
+  incidenciasInterval = setInterval(checkNewIncidents, 10000);
+}
+
+async function checkNewIncidents() {
+  if (!window.verNuevasIncidencias) return;
+  const data = await window.verNuevasIncidencias(lastIncidentTime);
+  if (data && data.length > 0) {
+    data.forEach(inc => {
+      if (new Date(inc.created_at) > new Date(lastIncidentTime)) {
+         lastIncidentTime = inc.created_at;
+      }
+      
+      let titulo = "Nueva Incidencia";
+      let cuerpo = `Tipo: ${inc.tipo.toUpperCase()}`;
+      if (inc.tipo === 'panic') {
+         titulo = "¡ALERTA DE PÁNICO!";
+         cuerpo = "Se ha activado un botón de pánico en el sistema.";
+      }
+      if (inc.notas) cuerpo += ` - ${inc.notas}`;
+      
+      mostrarNotificacionPush(titulo, cuerpo);
+    });
+    
+    if (state.currentView === "dashboard") {
+       const content = document.getElementById("view-content");
+       if (content && typeof renderDashboardView === "function") {
+          renderDashboardView(content);
+       }
+    }
+  }
+}
+
+function mostrarNotificacionPush(titulo, cuerpo) {
+  if (Notification.permission === "granted") {
+    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.showNotification(titulo, {
+          body: cuerpo,
+          icon: '/assets/icon.png',
+          badge: '/assets/icon.png',
+          vibrate: [200, 100, 200]
+        });
+      });
+    } else {
+      new Notification(titulo, { body: cuerpo, icon: '/assets/icon.png' });
+    }
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") mostrarNotificacionPush(titulo, cuerpo);
+    });
+  }
+}
