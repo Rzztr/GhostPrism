@@ -14,6 +14,7 @@
     />
   </head>
   <body class="dark-theme">
+    <div id="offline-banner" style="display: none; position: fixed; top: 0; left: 0; width: 100%; background-color: #da3633; color: white; text-align: center; padding: 0.8rem; font-weight: 600; z-index: 9999; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">¡Sin conexión a internet! Verifique su red.</div>
     <div id="app"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
@@ -22,6 +23,21 @@
     <script src="js/dashboard.js"></script>
     <script src="js/map.js"></script>
     <script src="js/main.js"></script>
+    <script>
+      window.addEventListener('load', () => {
+        const offlineBanner = document.getElementById('offline-banner');
+        function updateOnlineStatus() {
+          if (navigator.onLine) {
+            offlineBanner.style.display = 'none';
+          } else {
+            offlineBanner.style.display = 'block';
+          }
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+      });
+    </script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
