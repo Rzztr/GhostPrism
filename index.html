@@ -1,30 +1,4 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Ghost Prism - mother computer</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" color="#0d1117" />
-    <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-  </head>
-  <body class="dark-theme">
-    <div id="offline-banner" style="display: none; position: fixed; top: 0; left: 0; width: 100%; background-color: #da3633; color: white; text-align: center; padding: 0.8rem; font-weight: 600; z-index: 9999; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">¡Sin conexión a internet! Verifique su red.</div>
-    <div id="app"></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-    <script src="js/supabase.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script src="js/map.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-      window.addEventListener('load', () => {
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ghost Prism - mother computer</title><link rel="stylesheet" href="css/style.css"><link rel="manifest" href="manifest.json"><meta name="theme-color" color="#0d1117"><link rel="shortcut icon" href="icon.png" type="image/x-icon"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head><body class="dark-theme"><div id="offline-banner" style="display:none;position:fixed;top:0;left:0;width:100%;background-color:#da3633;color:#fff;text-align:center;padding:.8rem;font-weight:600;z-index:9999;box-shadow:0 4px 6px rgba(0,0,0,.3)">¡Sin conexión a internet! Verifique su red.</div><div id="app"></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script><script src="js/supabase.js"></script><script src="js/auth.js"></script><script src="js/dashboard.js"></script><script src="js/map.js"></script><script src="js/main.js"></script><script>window.addEventListener('load', () => {
         const offlineBanner = document.getElementById('offline-banner');
         function updateOnlineStatus() {
           if (navigator.onLine) {
@@ -36,17 +10,11 @@
         window.addEventListener('online', updateOnlineStatus);
         window.addEventListener('offline', updateOnlineStatus);
         updateOnlineStatus();
-      });
-    </script>
-    <script>
-      if ("serviceWorker" in navigator) {
+      });</script><script>if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
             .register("/sw.js")
             .then((reg) => console.log("Service Worker registrado"))
             .catch((err) => console.log("Error SW:", err));
         });
-      }
-    </script>
-  </body>
-</html>
+      }</script></body></html>
