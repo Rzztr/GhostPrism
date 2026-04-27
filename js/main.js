@@ -37,6 +37,13 @@ window.navigate = function (view) {
     if (btnActivo) btnActivo.classList.add("active");
     const content = document.getElementById("view-content");
     if (!content) return;
+
+    if (view !== "map" && window.mapUpdateInterval) {
+        clearInterval(window.mapUpdateInterval);
+        window.mapUpdateInterval = null;
+        window.trackingAlert = false;
+    }
+
     content.innerHTML = "";
     const titulos = { dashboard: "Dashboard", map: "Mapa en Tiempo Real", historial: "Historial" };
     document.getElementById("page-title").textContent = titulos[view] || view;
