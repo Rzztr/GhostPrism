@@ -106,7 +106,8 @@ function iniciarNotificaciones() {
     }
     if (incidenciasInterval) clearInterval(incidenciasInterval);
     lastIncidentTime = new Date().toISOString();
-    incidenciasInterval = setInterval(checkNewIncidents, 1e4);
+    incidenciasInterval = setInterval(checkNewIncidents, 3000); // Polling más rápido (3s)
+    checkNewIncidents();
 }
 async function checkNewIncidents() {
     if (!window.verNuevasIncidencias) return;

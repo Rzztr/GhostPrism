@@ -1,5 +1,5 @@
 const SUPABASE_URL = "https://pltwgpnqggznunmcvtad.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_7W0hgCVN_CIU0MrKdXhB0w_moW0BS_S";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdHdncG5xZ2d6bnVubWN2dGFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1Nzg1MDcsImV4cCI6MjA5MDE1NDUwN30.kEBaYIo9NwtXiG7vbNZZ07G3k1Cw48sK4RvsVpxjtDc";
 const HEADERS = {
     "Content-Type": "application/json",
     apikey: SUPABASE_ANON_KEY,
@@ -8,14 +8,18 @@ const HEADERS = {
 async function sbFetch(endpoint, options = {}) {
     const { extraHeaders: extraHeaders, ...fetchOptions } = options;
     try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
+        const url = `${SUPABASE_URL}/rest/v1/${endpoint}`;
+        console.log(`[Supabase] ${options.method || 'GET'} -> ${url}`);
+        const res = await fetch(url, {
             headers: { ...HEADERS, ...extraHeaders },
             ...fetchOptions,
         });
         if (!res.ok) {
-            const errorBody = await res.json().catch(() => ({}));
-            console.error(`[Supabase] Error ${res.status} en /${endpoint}:`, errorBody);
-            return { data: null, error: errorBody };
+            const errorText = await res.text().catch(() => "No se pudo leer el cuerpo del error");
+            console.error(`[Supabase] Error ${res.status} en /${endpoint}:`, errorText);
+            let errorBody = {};
+            try { errorBody = JSON.parse(errorText); } catch(e) {}
+            return { data: null, error: errorBody || errorText };
         }
         if (res.status === 204) return { data: null, error: null };
         const data = await res.json();
@@ -89,7 +93,7 @@ async function saveIncident(incident) {
         extraHeaders: { Prefer: "return=representation" },
         body: JSON.stringify({
             tipo: incident.tipo,
-            status: "activa",
+            status: incident.status ?? "activa",
             lat: incident.lat ?? null,
             lng: incident.lng ?? null,
             notas: incident.notas ?? null,
@@ -114,7 +118,7 @@ async function verTodasIncidencias() {
 }
 async function verIncidenciasActivas() {
     const { data: data, error: error } = await sbFetch(
-        "incidencias?select=id,tipo,status,lat,lng,notas,created_at&status=eq.activa&order=created_at.desc"
+        "incidencias?select=id,tipo,status,lat,lng,notas,created_at&status=in.(activa,bloqueada,bloqueado,libre)&order=created_at.desc"
     );
     if (error) {
         console.error("[Supabase] verIncidenciasActivas:", error);
@@ -141,6 +145,48 @@ async function resolverIncidencia(id) {
     });
     if (error) {
         console.error("[Supabase] resolverIncidencia:", error);
+        return null;
+    }
+    return data;
+}
+
+async function getLatestSystemState() {
+    const { data, error } = await sbFetch(
+        "incidencias?select=tipo,status,created_at&tipo=in.(bloqueo,liberacion)&order=created_at.desc&limit=1"
+    );
+    if (error) return null;
+    return data?.[0] || null;
+}
+
+async function checkSystemLock() {
+    // Buscamos la última entrada que defina el estado del sistema
+    const { data, error } = await sbFetch(
+        "incidencias?select=status&status=in.(bloqueado,libre)&order=created_at.desc&limit=1"
+    );
+    if (error) return false;
+    return data && data.length > 0 && data[0].status === "bloqueado";
+}
+
+async function resolverEstadosPrevios() {
+    // Resolvemos cualquier estado de bloqueo previo
+    const { data, error } = await sbFetch("incidencias?status=eq.bloqueado", {
+        method: "PATCH",
+        extraHeaders: { Prefer: "return=representation" },
+        body: JSON.stringify({ status: "resuelta" }),
+    });
+    return { data, error };
+}
+
+async function cambiarEstatusIncidencia(id, nuevoEstatus) {
+    if (!id || !nuevoEstatus) return null;
+    const cleanId = String(id).trim();
+    const { data: data, error: error } = await sbFetch(`incidencias?id=eq.${cleanId}`, {
+        method: "PATCH",
+        extraHeaders: { Prefer: "return=representation" },
+        body: JSON.stringify({ status: nuevoEstatus }),
+    });
+    if (error) {
+        console.error("[Supabase] cambiarEstatusIncidencia:", error);
         return null;
     }
     return data;
@@ -205,6 +251,10 @@ window.saveIncident = saveIncident;
 window.verTodasIncidencias = verTodasIncidencias;
 window.verIncidenciasActivas = verIncidenciasActivas;
 window.resolverIncidencia = resolverIncidencia;
+window.cambiarEstatusIncidencia = cambiarEstatusIncidencia;
+window.getLatestSystemState = getLatestSystemState;
+window.checkSystemLock = checkSystemLock;
+window.resolverEstadosPrevios = resolverEstadosPrevios;
 window.verHistorial = verHistorial;
 window.verHistorialPorMAC = verHistorialPorMAC;
 window.registrarAccion = registrarAccion;
